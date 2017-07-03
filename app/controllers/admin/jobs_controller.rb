@@ -1,8 +1,10 @@
-class JobsController < ApplicationController
+class Admin::JobsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :require_is_admin
+  layout "admin"
 
   def index
-    @jobs = Job.where(:is_hidden => false).order("created_at DESC")
+    @jobs = Job.all
   end
 
   def new
@@ -13,7 +15,7 @@ class JobsController < ApplicationController
     @job = Job.new
     if @job.save(job_params)
       flash[:notice] = "Job created"
-      redirect_to jobs_path
+      redirect_to admin_jobs_path
     else
       render "new"
     end
@@ -31,7 +33,7 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     if @job.update(job_params)
       flash[:notice] = "Job Updated"
-      redirect_to jobs_path
+      redirect_to admin_jobs_path
     else
       render "edit"
     end
@@ -41,8 +43,22 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     if @job.destroy
       flash[:alert] = "Job deleted"
-      redirect_to jobs_path
+      redirect_to admin_jobs_path
     end
+  end
+
+  def hide
+    @job = Job.find(params[:id])
+    @job.update(:is_hidden => true)
+    @job.save!
+    redirect_to admin_jobs_path
+  end
+
+  def public
+    @job = Job.find(params[:id])
+    @job.update(:is_hidden => false)
+    @job.save!
+    redirect_to admin_jobs_path
   end
 
   protected
@@ -50,4 +66,12 @@ class JobsController < ApplicationController
   def job_params
     params.require(:job).permit(:title, :description, :wage_upper_bound, :wage_lower_bound, :contact_email, :is_hidden)
   end
+
+  def require_is_admin
+    if !current_user.is_admin?
+      flash[:alert] = 'You are not admin'
+      redirect_to root_path
+    end
+  end
+
 end
