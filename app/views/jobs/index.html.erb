@@ -1,0 +1,20 @@
+<div class="pull-right">
+  <%= link_to("Add a job", "#", :class => "btn btn-primary") %>
+</div>
+
+<table class="table table-hover">
+  <tr>
+    <th>Job Title</th>
+    <th>Action</th>
+    <th>Created_at</th>
+  </tr>
+  <% @jobs.each do |job| %>
+  <tr>
+      <td><%= job.title %></td>
+      <td><%= link_to("Edit", edit_job_path(job), :class => "btn btn-xs btn-warning") %> |
+          <%= link_to("Destroy", job_path(job), method: :delete , :class => "btn btn-xs btn-danger")%>
+      </td>
+      <td><%= job.created_at %></td>
+  </tr>
+  <% end %>
+</table>
