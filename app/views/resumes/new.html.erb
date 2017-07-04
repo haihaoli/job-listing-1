@@ -1,0 +1,9 @@
+<h1>Job Title: <%= @job.title %></h1>
+
+<h2>New Resume</h2>
+
+<%= simple_form_for [@job, @resume] do |f| %>
+  <%= f.input :contant %>
+  <%= f.input :attachment %>
+  <%= f.submit "Submit", :disable_with => "submitting.."%>
+<% end %>
