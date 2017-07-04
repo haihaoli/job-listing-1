@@ -1,0 +1,23 @@
+<h1>Job Tilte: <%= @job.title %></h1>
+
+<p><h4>Job Description: <%= @job.description %></h4></p>
+
+
+<% if @job.resumes.present? %>
+  <table class="table table-strip">
+    <tr>
+      <th>contant</th>
+      <th>Download Link</th>
+      <th>Updated at</th>
+    </tr>
+    <% @job.resumes.each do |f| %>
+    <tr>
+      <td><%= f.contant %></td>
+      <td><%= link_to "Download Resume", f.attachment_url %></td>
+      <td><%= f.created_at %></td>
+    </tr>
+    <% end %>
+  </table>
+<% else %>
+  尚未有提交的简历
+<% end %>

@@ -8,13 +8,14 @@
   <tr>
     <th>Job Title</th>
     <th>Action</th>
+    <th>Resume</th>
     <th>Created_at</th>
   </tr>
   <% @jobs.each do |job| %>
   <tr>
       <td>
         <%= job_status(job) %>
-        <%= link_to job.title, job_path(job) %>
+        <%= link_to job.title, admin_job_path(job) %>
       </td>
       <td><%= link_to("Edit", edit_admin_job_path(job), :class => "btn btn-xs btn-warning") %> |
           <%= link_to("Destroy", admin_job_path(job), method: :delete , :class => "btn btn-xs btn-danger")%> |
@@ -24,6 +25,7 @@
             <%= link_to("Hidden", hide_admin_job_path(job), method: :post, :class => "btn btn-xs btn-default") %>
           <% end %>
       </td>
+      <td><%= job.resumes.count %></td>
       <td><%= job.created_at %></td>
   </tr>
   <% end %>
