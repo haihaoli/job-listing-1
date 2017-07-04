@@ -1,0 +1,11 @@
+<h1>Edit Job</h1>
+
+<%= simple_form_for [:admin, @job ] do |job| %>
+  <%= job.input :title %>
+  <%= job.input :description %>
+  <%= job.input :wage_lower_bound %>
+  <%= job.input :wage_upper_bound %>
+  <%= job.input :contact_email %>
+  <%= job.input :is_hidden %>
+  <%= job.submit "Submit", :disable_with => "submitting..." %>
+<% end %>

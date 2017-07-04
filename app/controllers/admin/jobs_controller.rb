@@ -12,12 +12,12 @@ class Admin::JobsController < ApplicationController
   end
 
   def create
-    @job = Job.new
-    if @job.save(job_params)
+    @job = Job.new(job_params)
+    if @job.save
       flash[:notice] = "Job created"
       redirect_to admin_jobs_path
     else
-      render "new"
+      render :new
     end
   end
 
@@ -35,7 +35,7 @@ class Admin::JobsController < ApplicationController
       flash[:notice] = "Job Updated"
       redirect_to admin_jobs_path
     else
-      render "edit"
+      render "admin/edit"
     end
   end
 
@@ -61,7 +61,7 @@ class Admin::JobsController < ApplicationController
     redirect_to admin_jobs_path
   end
 
-  protected
+  private
 
   def job_params
     params.require(:job).permit(:title, :description, :wage_upper_bound, :wage_lower_bound, :contact_email, :is_hidden)
