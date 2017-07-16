@@ -9,6 +9,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :jobs do
+
+      collection do
+        post :bulk_update
+      end
+
       member do
         post :hide
         post :public

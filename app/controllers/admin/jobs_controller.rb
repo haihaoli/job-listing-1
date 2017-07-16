@@ -61,6 +61,19 @@ class Admin::JobsController < ApplicationController
     redirect_to admin_jobs_path
   end
 
+  def bulk_update
+    total = 0
+    Array(params[:ids]).each do |job_id|
+      job = Job.find(job_id)
+      job.destroy
+      total += 1
+    end
+
+    flash[:alert] = "成功完成#{total}笔"
+    redirect_to admin_jobs_path
+  end
+
+
   private
 
   def job_params

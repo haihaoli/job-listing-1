@@ -52,6 +52,8 @@ class JobsController < ApplicationController
     end
   end
 
+
+
   protected
 
   def job_params

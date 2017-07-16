@@ -4,8 +4,10 @@
   <%= link_to("Add a job", new_admin_job_path, :class => "btn btn-primary") %>
 </div>
 
+<%= form_tag bulk_update_admin_jobs_path, :class => "form-inline" do %>
 <table class="table table-hover">
   <tr>
+    <th><%= check_box_tag "全选", "1", false, :id => "toggle_all" %></th>
     <th>Job Title</th>
     <th>Action</th>
     <th>Resume</th>
@@ -13,6 +15,9 @@
   </tr>
   <% @jobs.each do |job| %>
   <tr>
+      <td>
+        <%= check_box_tag "ids[]", job.id %>
+      </td>
       <td>
         <%= job_status(job) %>
         <%= link_to job.title, admin_job_path(job) %>
@@ -30,3 +35,19 @@
   </tr>
   <% end %>
 </table>
+
+<p>
+  <%= submit_tag "批次删除", :class => "btn btn-danger", :data => { :confirm => "Are you sure?" } %>
+</p>
+
+<% end %>
+
+<script>
+  $("#toggle_all").click(function(){
+    if ( $(this).prop("checked") ) {
+      $("input[name='ids[]']").prop("checked", true);
+    } else {
+      $("input[name='ids[]']").prop("checked", false);
+    }
+  })
+</script>
